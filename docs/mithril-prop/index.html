@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.js"></script>
+  <script src="https://unpkg.com/ramda@0.23.0/dist/ramda.min.js"></script>
+  <script src="https://unpkg.com/flyd@0.2.4/flyd.min.js"></script>
+  <script src="https://rawgit.com/JAForbes/autocomplete/38298c1d8d1f5e133c76ae9611080e469461566b/lib/index.js"></script>
+  <script>
+
+const JSAutocomplete = BaseAutocomplete(
+  m
+  ,o => f => {o.value = f( o.value )}
+  ,o => o.value
+  ,o => x => {o.value = x}
+)
+
+const PropAutocomplete = BaseAutocomplete(
+  m
+  ,o => f => o( f(o) )
+  ,o => o()
+  ,o => x => o(x)
+)
+
+const LensAutocomplete = (state, ...args) => BaseAutocomplete(
+  m
+  ,o => f => state(R.over(o, f, state()))
+  ,o => R.view(o, state())
+  ,o => x => state( R.set(o, x, state()) )
+)(...args)
+
+var Main = {
+  controller: function(){
+    
+    return {
+      js_list: { value : ['apples', 'bananas', 'pears'] }
+      ,js_value: { value: '' }
+      ,js_chosen: { value: '' }
+      ,js_open: { value: false }
+      
+      ,m_list: m.prop(['apples', 'bananas', 'pears'])
+      ,m_value: m.prop('')
+      ,m_chosen: m.prop('')
+      ,m_open: m.prop(false)
+      
+      ,lens_value: R.lensProp('value')
+      ,lens_list: R.lensProp('list')
+      ,lens_chosen: R.lensProp('chosen')
+      ,lens_open: R.lensProp('open')
+      ,lens_state: flyd.stream({ 
+        value: ''
+        , chosen: 'apples'
+        , list: ['apples', 'bananas', 'pears']
+        , open: false
+      })
+    }
+  }
+  ,view: function (ctrl){
+    const { js_list , js_value, js_chosen, js_open } = ctrl
+    const { m_list , m_value, m_chosen, m_open } = ctrl
+    const { 
+      lens_list
+      , lens_value
+      , lens_state
+      , lens_chosen
+      , lens_open 
+    } = ctrl
+    
+    return [
+      m('p','JS Mutable Autocomplete')
+      ,JSAutocomplete( js_list, js_value, js_chosen, js_open )
+      
+      ,m('p','Mithril Prop Autocomplete')
+      ,PropAutocomplete( m_list, m_value, m_chosen, m_open  )
+      
+      ,m('p','Lens Autocomplete')
+      ,LensAutocomplete( 
+        lens_state
+        , lens_list
+        , lens_value 
+        , lens_chosen
+        , lens_open
+      )
+    ]
+  }
+}   
+  
+     
+m.mount(document.body, Main)
+  
+  </script>
+  
+</body>
+</html>
