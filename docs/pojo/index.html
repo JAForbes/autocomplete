@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>JS Bin</title>
+  <style>
+    # demo_container {
+    }
+    # code_container {
+    }
+  </style>
 </head>
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.js"></script>
@@ -39,7 +45,7 @@ var Main = {
   }
 }   
     
-m.mount(demo_container, Main)
+m.mount( document.querySelector('#demo_container'), Main )
   
   </script>
   <script>
