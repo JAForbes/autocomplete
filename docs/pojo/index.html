@@ -8,7 +8,9 @@
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.js"></script>
   <script src="https://rawgit.com/JAForbes/autocomplete/lib/index.js"></script>
-  <script>
+  <div id="demo_container"></div>
+  <code id="code_container"></code>
+  <script id='sample'>
 
 const JSAutocomplete = BaseAutocomplete(
   m
@@ -37,9 +39,11 @@ var Main = {
   }
 }   
     
-m.mount(document.body, Main)
+m.mount(demo_container, Main)
   
   </script>
-  
+  <script>
+    code_container.innerHTML = sample.innerHTML
+  </script>
 </body>
 </html>
