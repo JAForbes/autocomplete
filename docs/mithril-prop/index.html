@@ -7,6 +7,56 @@
 </head>
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.js"></script>
+  <script src="https://rawgit.com/JAForbes/autocomplete/master/lib/index.js"></script>
+  <div id="demo_container"></div>
+  <pre id="code_container"></pre>
+  <script id='sample'>
+
+const PropAutocomplete = BaseAutocomplete(
+  m
+  ,o => f => o( f(o) )
+  ,o => o()
+  ,o => x => o(x)
+)
+
+var Main = {
+  controller: function(){
+    
+    return {
+      m_list: m.prop(['apples', 'bananas', 'pears'])
+      ,m_value: m.prop('')
+      ,m_chosen: m.prop('')
+      ,m_open: m.prop(false)
+    }
+  }
+  
+  ,view: function (ctrl){
+    const { m_list , m_value, m_chosen, m_open } = ctrl
+    return [
+      ,m('p','Mithril Prop Autocomplete')
+      ,PropAutocomplete( m_list, m_value, m_chosen, m_open  )
+    ]
+  }
+}   
+    
+m.mount( document.querySelector('#demo_container'), Main )
+  
+  </script>
+  <script>
+    code_container.innerHTML = sample.innerHTML
+  </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.js"></script>
   <script src="https://unpkg.com/ramda@0.23.0/dist/ramda.min.js"></script>
   <script src="https://unpkg.com/flyd@0.2.4/flyd.min.js"></script>
   <script src="https://rawgit.com/JAForbes/autocomplete/38298c1d8d1f5e133c76ae9611080e469461566b/lib/index.js"></script>
