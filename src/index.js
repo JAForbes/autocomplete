@@ -136,10 +136,10 @@ function BaseAutocomplete(h, over, view, set){
 }
 
 BaseAutocomplete.queries = {
-  root: f => s => over( lensIndex(0), f, s )
-  ,input: f => s => over( compose( lensIndex(0), lensIndex(0) ) , f, s )
-  ,list: f => s => over( compose( lensIndex(0), lensIndex(1) ) , f, s )
-  ,listItems: f => s => over( compose( lensIndex(0), lensIndex(1), lensProp('children') ) , map(f), s )
+  root: f => s => over( lensIndex(0), f, [s] )[0]
+  ,input: f => s => over( compose( lensIndex(0), lensIndex(0) ) , f, [s] )[0]
+  ,list: f => s => over( compose( lensIndex(0), lensIndex(1) ) , f, [s] )[0]
+  ,listItems: f => s => over( compose( lensIndex(0), lensIndex(1), lensProp('children') ) , map(f), [s] )[0]
 }
 
 export default BaseAutocomplete
