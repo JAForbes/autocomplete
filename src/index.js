@@ -106,40 +106,45 @@ function BaseAutocomplete(h, over, view, set){
         , config.renderItem(x)
       )
     } 
-    
-    return h('div'
-      ,h('input'
-         ,{ value
-         , oninput: function(e){
-           [e.currentTarget.value]
-             .map( config.extractValue )
-             .map( set(input) )
-         }
-           , onfocus: () => { set(open)(true) }
-           , onblur: () => { setTimeout( set(open), 0, false) }
-         }
-      )
-      ,view(open) && value.length >= config.minChars
-      ? h('ul'
-        , view( list )
-            .filter(contains(value))
-            .sort(sort)
-            .slice(0, config.maxItems)
-            .map( item )
+    return [
+      h('div'
+        ,h('input'
+          ,{ value
+          , oninput: function(e){
+            [e.currentTarget.value]
+              .map( config.extractValue )
+              .map( set(input) )
+          }
+            , onfocus: () => { set(open)(true) }
+            , onblur: () => { setTimeout( set(open), 0, false) }
+          }
         )
-      : h('ul', [])
-    )
+        ,view(open) && value.length >= config.minChars
+        ? h('ul'
+          , view( list )
+              .filter(contains(value))
+              .sort(sort)
+              .slice(0, config.maxItems)
+              .map( item )
+          )
+        : h('ul', [])
+      )
+    ]
 
   }
 
   return Autocomplete  
 }
 
+const first = lensIndex(0)
+const second = lensIndex(1)
+const root = first
+const input = compose( root, first )
+const list = compose( root, second )
+const listItems = compose( list, lensProp('children') )
+
 BaseAutocomplete.queries = {
-  root: f => s => over( lensIndex(0), f, [s] )[0]
-  ,input: f => s => over( compose( lensIndex(0), lensIndex(0) ) , f, [s] )[0]
-  ,list: f => s => over( compose( lensIndex(0), lensIndex(1) ) , f, [s] )[0]
-  ,listItems: f => s => over( compose( lensIndex(0), lensIndex(1), lensProp('children') ) , map(f), [s] )[0]
+  root, input, list, listItems
 }
 
 export default BaseAutocomplete
