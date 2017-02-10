@@ -1,5 +1,10 @@
-(function(){
-	
+import over from 'ramda/src/over'
+import lensIndex from 'ramda/src/lensIndex'
+import lensProp from 'ramda/src/lensProp'
+import compose from 'ramda/src/compose'
+import map from 'ramda/src/map'
+
+
 /*
 * The following utilities are all adapted from 
 * https://github.com/LeaVerou/awesomplete
@@ -131,16 +136,10 @@ function BaseAutocomplete(h, over, view, set){
 }
 
 BaseAutocomplete.queries = {
-  root: { path: [0], type: 'single' }
-  ,input: { path: [0, 0], type: 'single' }
-  ,list: { path: [0, 1], type: 'single' }
-  ,listItems: { path: [0, 1, 'children'], count: 'many' }
+  root: f => s => over( lensIndex(0), f, s )
+  ,input: f => s => over( compose( lensIndex(0), lensIndex(0) ) , f, s )
+  ,list: f => s => over( compose( lensIndex(0), lensIndex(1) ) , f, s )
+  ,listItems: f => s => over( compose( lensIndex(0), lensIndex(1), lensProp('children') ) , map(f), s )
 }
 
-if( typeof module != 'undefined' ){
-  module.exports = BaseAutocomplete   
-} else {
-  window.BaseAutocomplete = BaseAutocomplete
-}
-	
-})()
+export default BaseAutocomplete

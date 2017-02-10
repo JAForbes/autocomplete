@@ -1,0 +1,1 @@
+`npm bin`/wright index.html -r "m.redraw"
