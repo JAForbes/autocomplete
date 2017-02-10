@@ -4,6 +4,6 @@
 
 Examples:
 
-- [Mithril Prop Data Store](docs/mithril-prop)
-- [Ramda Lens + Flyd Stream Data Store](docs/ramda-lens)
-- [Vanilla JS POJO Store](docs/pojo)
+- [Mithril Prop Data Store](examples/mithril-prop)
+- [Ramda Lens + Flyd Stream Data Store](examples/ramda-lens)
+- [Vanilla JS POJO Store](examples/pojo)
